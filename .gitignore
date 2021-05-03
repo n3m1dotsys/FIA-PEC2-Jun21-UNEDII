@@ -1,6 +1,6 @@
 ### Python ###
 settings.py
-env/*
+*/env/*
 
 ### VSCode ###
 *.code-workspace
