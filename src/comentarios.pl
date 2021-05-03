@@ -3,7 +3,7 @@
 %   comentarios.pl   -   Contiene los comentarios del periodista               %
 %                                                                              %
 % author: Martín "n3m1.sys" Romera Sobrado                                     %
-%                                                                              $
+%                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- [partidos].

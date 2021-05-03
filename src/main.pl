@@ -3,7 +3,7 @@
 %   main.pl   -   Programa a ejecutar                                          %
 %                                                                              %
 % author: Martín "n3m1.sys" Romera Sobrado                                     %
-%                                                                              $
+%                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- [partidos, pactos, comentarios, util].

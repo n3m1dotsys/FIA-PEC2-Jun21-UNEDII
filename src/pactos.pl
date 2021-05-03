@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   pactos.pl   -   El pactometro 3.0 (Tiembla Ferreras).
-%
-% author: Martín "n3m1.sys" Romera Sobrado
-%
+%                                                                              %
+%   pactos.pl   -   El pactometro 3.0 (Tiembla Ferreras).                      %
+%                                                                              %
+% author: Martín "n3m1.sys" Romera Sobrado                                     %
+%                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 :- [partidos].
@@ -61,8 +61,8 @@ valorar_pacto(Ps) :-
                 pactos_bidireccionales(Partidos),!,
                 comen_pactos_bidireccionales(Partidos)
             );(
-                % Algunos partidos no quieren pactar con otros que a su vez quieren
-                % pactar con ellos
+                % Algunos partidos no quieren pactar con otros que a su vez
+                % quieren pactar con ellos
                 not(solo_uno(Partidos)),
                 not(pactos_bidireccionales(Partidos)),
                 pactos_unidireccionales(Partidos),!,

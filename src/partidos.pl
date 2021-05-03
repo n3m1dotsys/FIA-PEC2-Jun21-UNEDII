@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%   partidos.pl   -   Cosas relacionadas con los partidos
-%
-% author: Martín "n3m1.sys" Romera Sobrado
-%
+%                                                                              %
+%   partidos.pl   -   Cosas relacionadas con los partidos                      %
+%                                                                              %
+% author: Martín "n3m1.sys" Romera Sobrado                                     %
+%                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -127,7 +127,7 @@ partition([P|Ps],Pivot,IR,[P|DR]) :-
 partition([],_,[],[]).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Calculo de escaños totales de un grupo de partidos
+% Calculo de escaños totales de un grupo de partidos                           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 escanos_totales([Partido|[]], S) :-
     escanos(Partido,X),
@@ -139,7 +139,7 @@ escanos_totales([Partido | Partidos], S) :-
     S is X + Y.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Comprobación de que todos los partidos son del mismo espectro político
+% Comprobación de que todos los partidos son del mismo espectro político       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 todos_derecha([Partido | Partidos]) :-
     derecha(Partido),
