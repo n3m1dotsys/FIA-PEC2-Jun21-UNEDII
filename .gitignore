@@ -1,3 +1,7 @@
+### Python ###
+settings.py
+env/*
+
 ### VSCode ###
 *.code-workspace
 
