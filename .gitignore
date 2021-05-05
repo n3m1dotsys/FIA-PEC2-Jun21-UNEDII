@@ -1,11 +1,9 @@
-### Python ###
-settings.py
-*/env/*
-
 ### VSCode ###
 *.code-workspace
 
 ### LaTeX ###
+.fuse_hidden*
+*.pyg*
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
