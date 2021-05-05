@@ -1,0 +1,338 @@
+\documentclass[a4paper, 12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{minted}
+\usepackage[a4paper, total={6.8in, 8in}]{geometry}
+\usetikzlibrary{positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Martín Romera Sobrado}
+\chead{FIA}
+\lhead{PEC2}
+\cfoot{\thepage}
+
+\setlength{\headheight}{52pt}
+
+\begin{document}
+
+    \begin{titlepage}
+        
+        \centering
+		\vspace*{1cm}
+		
+		\Huge
+		\textbf{Fundamentos de Inteligencia Artificial}\\
+		\textbf{PEC2 - 2021}
+		
+		\vspace{0.5cm}
+		\LARGE
+		Centro Asociado de la UNED en Bizkaia\\
+		\vspace{1.5cm}
+		
+		\textbf{Martín Romera Sobrado}\\
+		\textbf{Bilbao}
+		
+		\vfill
+		
+		\vspace{0.8cm}
+		\Large
+		\today
+
+    \end{titlepage}
+
+	\tableofcontents
+	\newpage
+
+	\section{Introducción}
+
+		En este proyecto se presenta \textit{El Pactometro 4M Automático} basado 
+	en la herramienta de la cadena de televisión de \textit{La Sexta} para 
+	calcular posibles pactos entre partidos políticos tras unas elecciones. Sin 
+	embargo la herramienta original carece de una caracteristica bastante 
+	importante, que es comentar la validez del pacto calculado.\\\mbox{}
+
+		Valorar un pacto puede parecer algo muy humano, ya que un pacto es 
+	primitivamente una relación humana. Sin embargo, un pacto político también
+	se basa en una serie de \textbf{reglas} lógicas. Por ejemplo, es más dificil
+	que un partido de izquierdas pacte un partido de derechas, o es dificil que 
+	pacten dos partidos que han asegurado ante los medios que quieren pactar 
+	entre ellos o que solo uno de ellos quiera pactar. \textit{El Pactometro 4M 
+	Automático} se aprovecha de este tipo de lógica para convertirse en un 
+	\textit{Sistema Experto para la valoración de pactos tras las elecciones del
+	4 de Mayo en la Comunidad de Madrid}.\\\mbox{}
+
+	\section{Modelado del conocimiento del dominio}
+
+		El dominio sobre el que trabajará el sistema como ya se ha mencionado 
+	antes son \textbf{los pactos de las elecciones del 4M}. Para modelar este 
+	conocimiento nos aprovechamos de la información que han proporcionado los
+	partidos a los medios de comunicación, como la intención de pacto de cada
+	partido, o el concepto que tiene la sociedad de los partidos, como el 
+	espectro político de cada uno de estos (izquierda o derecha) y en que 
+	posición se encuentran en él (más extremos o más centristas).
+
+		Cabe decir que se ha simplificado el método de cálculo de pactos, de 
+	forma que no tiene en cuenta abstenciones, solo apoyos. Si un conjunto de
+	partidos suma una mayoría absoluta (69 escaños o más) el sistema considerará
+	que el pacto se podrá evaluar y considerará al lider del partido con más 
+	escaños futuro hipotético presidente.\\\mbox{}
+
+	\section{Descripción del sistema}
+
+		Para comenzar a introducir pactos se deberá introducir el comando 
+	\texttt{[main].}, para cargar los modulos, seguido de \texttt{init.}, donde 
+	el usuario podrá introducir al sistema los resultados sobre los que quiere 
+	trabajar. 
+	\begin{figure}[ht!]
+		\begin{minted}[breaklines]{text}
+?- [main].
+true.
+
+?- init.
+Introduce el número de escaños que ha obtenido Unidas Podemos
+|: 10.
+Introduce el número de escaños que ha obtenido Más Madrid
+|: 24.
+Introduce el número de escaños que ha obtenido PSOE
+|: 24.
+Introduce el número de escaños que ha obtenido Ciudadanos
+|: 0.
+Introduce el número de escaños que ha obtenido Partido Popular
+|: 65.
+Introduce el número de escaños que ha obtenido VOX
+|: 13.
+el Partido Popular con 65 escaños, se sitúa como primera fuerza parlamentaria.
+Para comenzar a calcular pactos, lanza el comando "pactometro."
+true.
+		\end{minted}
+		\caption{Inicialización del sistema, con los resultados electorales del
+		4M}
+		\label{f:init}
+	\end{figure}
+
+	El sistema tras introducir los datos nos dice quien habría ganado las 
+elecciones por numero de escaños. La frase con la que dice esto se elige según 
+el número de escaños que haya obtenido ese partido (para quitarle monotoneidad
+al sistema).\\\mbox{}
+
+	\begin{figure}[ht!]
+		\inputminted[firstline=29,lastline=55,breaklines]
+		{prolog}{../src/comentarios.pl}
+		\caption{Elección de frase aleartoria}
+		\label{f:comentario_ganador}
+	\end{figure}
+
+	Tras esto podemos introducir el comando \texttt{pactometro.} para empezar a 
+calcular pactos. Este comando nos pedirá primero que numero de partidos va a 
+formar el pacto y despues introducir los partidos que formarian ese pacto
+\footnote{Ojo, el pactometro no tiene en cuenta el concepto de abstención, las 
+abstenciones se tienen que establecer como posiciones a favor o en contra
+dependiendo de si esa abstención habilitaría o deshabilitaría un pacto}.
+\\\mbox{}
+
+	Pongamos por ejemplo de pacto más posible despues de las elecciones, una 
+coalción de las dos fuerza de derechas con representación en el parlamento
+, uno entre el \textit{Partido Popular} y \textit{VOX}. La figura 
+\ref{f:pactometro_1} muestra el resultado de la ejecución del pactometro para
+ese posible pacto.\\\mbox{}
+
+\begin{figure}[ht!]
+	\begin{minted}[breaklines]{text}
+?- pactometro.
+Cuantos partidos va a formar el pacto: 
+|: 2.
+2 restantes.
+Introduce un partido de usando el siguiente código: 
+up : Unidas Podemos
+mm : Más Madrid
+psoe : PSOE
+cs : Ciudadanos
+pp : Partido Popular
+vox : VOX
+|: pp.
+1 restantes.
+Introduce un partido de usando el siguiente código: 
+up : Unidas Podemos
+mm : Más Madrid
+psoe : PSOE
+cs : Ciudadanos
+pp : Partido Popular
+vox : VOX
+|: vox.
+Una coalición entre Partido Popular, y VOX daría paso a un gobierno de derechas en la Asamblea de Madrid liderado por Isabel Díaz Ayuso con un respaldo de 78 escaños.
+true .
+	\end{minted}
+	\caption{Resultado del pactometro entre los dos partidos de derechas}
+	\label{f:pactometro_1}
+\end{figure}
+
+	Obviamente este no es el único pacto que forma mayoría. Digamos que todos
+los partidos se alian en contra del \textit{Partido Popular}. La respuesta del 
+\textit{Pactometro} sería algo mal educada pero acorde a lo que le hemos pedido 
+que nos valore, como podemos ver en la figura \ref{f:pactometro_2}.\\\mbox{}
+
+\begin{figure}[ht!]
+	\begin{minted}{text}
+Tú fumas crack
+true .
+	\end{minted}
+	\caption{Resultado del pactometro para un pacto muy improbable 
+	(\textit{Unidas Podemos, Más Madrid, PSOE} y \textit{VOX})}
+	\label{f:pactometro_2}
+\end{figure}
+
+	El \textit{Pactometro} esta diseñado para responder con una educación
+proporcional al sentido que tenga el pacto que se le proponga. \\\mbox{}
+
+	Pongamos un ejemplo más, en este caso vamos a introducir unos datos de un 
+sondeo que hizo \textit{El Plural}, que daría la victoria al bloque de 
+izquierdas con los resultados del cuadro \ref{f:encuesta_plural}.\\\mbox{}
+
+\begin{table}[ht!]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textit{Unidas Podemos} & 10 \\\hline
+		\textit{Más Madrid}		& 26 \\\hline
+		\textit{PSOE}			& 33 \\\hline
+		\textit{Ciudadanos}		& 0	 \\\hline
+		\textit{PP}				& 57 \\\hline
+		\textit{VOX}			& 10 \\\hline
+	\end{tabular}
+	\caption{Sondeo de El Plural}
+	\label{f:encuesta_plural}
+\end{table}
+
+	El pacto con más posibilidades sería el de los 3 partidos del bloque de 
+izquierdas (\textit{Unidas Podemos, Más Madrid} y \textit{PSOE}). Si le 
+planteamos este pacto al \textit{Pactometro} nos dará como resultado la 
+frase de la figura \ref{f:pactometro_3}\\\mbox{}
+
+\begin{figure}[ht!]
+	\begin{minted}[breaklines]{text}
+Un pacto entre Unidas Podemos, Más Madrid, y PSOE podrían dar paso a un gobierno progresista liderado por Ángel Gabilondo con 69 escaños de respaldo. Sin embargo Ángel Gabilondo ha advertido que no tenía intención de pactar con Pablo Iglesias lo que podría bloquear esta posibilidad.
+true .
+	\end{minted}
+	\caption{Respuesta a los resultados del sondeo con un pacto del bloque de
+	izquierdas}
+	\label{f:pactometro_3}
+\end{figure}
+
+	Como el pacto es menos posible ya que el candidato del \textit{PSOE} dijo, 
+que no tenía intención de pactar con \textit{Unidas Podemos}, el 
+\textit{Pactometro} nos lo hace saber.
+
+Para calcular el sentdo del pacto, este utiliza los siguientes mecanismos:
+
+\begin{itemize}
+	\item Comprobar que se encuentran en el mismo espectro.
+	\item Comprobar si quieren pactar entre ellos.
+	\item Calcular la mayor distancia dentro del espectro político.
+\end{itemize}
+
+	Todo este calculo lo realiza el modulo \texttt{pactos.pl}. Veamos paso a 
+paso como desarrolla este calculo el sistema. Una vez introducido los partidos 
+que van a formar el pacto se llama a la regla que se muestra en la figura 
+\ref{f:valorar_pactos}.\\\mbox{}
+
+\begin{figure}[ht!]
+	\inputminted[breaklines,firstline=47,lastline=81]{prolog}{../src/pactos.pl}
+	\caption{Regla para la valoración del pacto}
+	\label{f:valorar_pactos}
+\end{figure}
+
+	Esta regla primero elimina los partidos que no han obtenido escaños y los 
+que se encuentran repetidos en la lista. Tras eso comprueba si el conjunto de 
+partidos tiene mayoría o no. Después llega a una estructura similar a la que en
+programación imperativa podría ser un \textit{switch/case} en el que comprueba 
+primero si solo hay un partido con mayoría en la coalición, si no comprueba si 
+los partidos quieren pactar entre ellos en ambas direcciones, si no comprueba si 
+al menos una de las partes del pacto querría participar en el pacto (como podría
+ocurrir en un pacto \textit{PSOE} con \textit{Unidas Podemos})
+y finalmente si hay si hay partidos dentro del hipotético pacto que no quiere 
+pactar entre ellos. Cada una de estas situaciones llevaría a una regla de 
+comentario que generaría un comentario acorde al pacto. Para realizar estas 
+evaluaciones se aprovecha de unas reglas auxiliares definidas en la figura 
+\ref{f:auxiliares_eval}.\\\mbox{}
+
+\begin{figure}[ht!]
+	\inputminted[breaklines,firstline=86,lastline=87]{prolog}
+	{../src/pactos.pl}
+	\inputminted[breaklines,firstline=91,lastline=105]{prolog}
+	{../src/pactos.pl}
+	\caption{Reglas auxiliares}
+	\label{f:auxiliares_eval}
+\end{figure}
+
+	Todos estos comentarios se encuentran dentro del modulo 
+\texttt{comentarios.pl}. Para evaluar mayorías, numero de escaños y posición en 
+el espectro político se utilizan las reglas y constantes del modulo 
+\texttt{partidos.pl}. Este modulo también define algunas constantes interesantes
+para la generación de comentarios.
+
+\section{Complicaciones durante el desarrollo}
+
+	La principal dificultad del desarrollo de este proyecto ha sido la 
+utlización de un nuevo lenguaje de un paradigma al que no estoy acostumbrado con
+poco tiempo de margen (culpa mia por haber empezado tarde). Es por eso que hay 
+algunas cosas dentro del código que igual podrían mejorarse. La optimización del 
+código igual ha sido lo más dificil, todavía no me manejo del todo bien con la 
+orden de corte y la he utilizado basicamente para que no entrara en bucles 
+tontos como en los algoritmos de ordenación, en la estructura tipo 
+\texttt{switch/case} de la valoración del pacto y poco más. Puede que se pudiera 
+haber optmizado mejor de otra forma, pero tal vez necesite más práctica con el
+lenguaje para verlo con mayor claridad.\\\mbox{}
+
+	La implementación modular que he utilizado al principio del desarrollo 
+también ha sido un dolor de cabeza. Es por eso que hay unas pocas reglas donde
+no deberían estar. Sin embargo al final me he hecho más o menos al sistema y he 
+podido finalizar el proyecto de forma modular para que sea más fácil leerlo.
+\\\mbox{}
+
+	Como he dicho antes el tiempo ha sido otro problema que ha hecho que algunas
+características se hayan quedado fuera del proyecto final. Aquí listo algunas de
+ellas:
+\begin{itemize}
+	\item Poder marcar abstenciones.
+	\item Comentarios más precisos para la evaluación de pactos concretos.
+	\item Mayor sensación de aleatoriedad con las respuestas.
+	\item Evaluación de votos. (Algo que afecta a estos resultados de hecho ya
+		  que el sistema reconoce que \textit{PSOE} y \textit{Más Madrid} tienen
+		  el mismo apoyo cuando \textit{Más Madrid} tiene más votos).
+	\item Comparación de los resultados con los de las pasadas elecciones.
+	\item Generación automática del pacto más posible.
+\end{itemize}
+De todas formas, a pesar de las limitaciones el sistema logra dar unos
+resultados con sentido.\\\mbox{}
+
+	Otra complejidad del desarrollo aunque no ligada al propio sistema si no más 
+al tema, es que es un tema ``sensible''. Son unas elecciones que acaban de 
+ocurrir, y que han estado muy polarizadas y han tenido una participación masiva.
+Añadirle un toque de humor a un tema como este no ha sido fácil, ya que no 
+quería mostrar ni mis ideas políticas ni ofender a nadie. Espero haber cumplido 
+con esto, y si no ha sido así pido disculpas por adelantado. 
+
+\newpage
+
+\section*{Listados del código}
+
+\subsection*{main.pl}
+	\inputminted[]{prolog}{../src/main.pl}
+\subsection*{partidos.pl}
+	\inputminted[]{prolog}{../src/partidos.pl}
+\subsection*{pactos.pl}
+	\inputminted[]{prolog}{../src/pactos.pl}
+\subsection*{util.pl}
+	\inputminted[]{prolog}{../src/util.pl}
+\subsection*{comentarios.pl}
+	\inputminted[]{prolog}{../src/comentarios.pl}
+\newpage
+
+
+\end{document}
