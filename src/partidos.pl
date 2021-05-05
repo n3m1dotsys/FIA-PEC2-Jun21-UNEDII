@@ -56,7 +56,7 @@ espectro(vox, 6).
 % Los partidos se encuentran en el mismo espectro o no                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 mismo_espectro(Partidos) :- 
-    todos_derecha(Partidos); 
+    todos_derecha(Partidos),!; 
     todos_izquierda(Partidos).
 
 distinto_espectro(Partidos) :- not(mismo_espectro(Partidos)).
@@ -141,16 +141,8 @@ escanos_totales([Partido | Partidos], S) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comprobación de que todos los partidos son del mismo espectro político       %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-todos_derecha([Partido | Partidos]) :-
-    derecha(Partido),
-    todos_derecha(Partidos).
+todos_derecha(Partidos) :-
+    forall(member(X,Partidos),derecha(X)).
 
-todos_derecha(Partido) :-
-    derecha(Partido).
-
-todos_izquierda([Partido | Partidos]) :-
-    izquierda(Partido),
-    todos_izquierda(Partidos).
-
-todos_izquierda([Partido]) :- 
-    izquierda(Partido).
+todos_izquierda(Partidos) :-
+    forall(member(X,Partidos),izquierda(X)).

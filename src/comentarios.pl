@@ -95,7 +95,7 @@ comen_mayoria_absoluta(Partido) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Comentario si los partidos tienen opción a pacto bidireccional               %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-comen_pactos_bidireccionales(Escanos,Partidos) :-
+comen_pactos_bidireccionales(Partidos) :-
     escanos_totales(Partidos, Escanos),
     (
         (mismo_espectro(Partidos),
@@ -208,21 +208,21 @@ comen_no_pactos(Partidos) :-
         )
     ).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Comentario por si se encuentra un partido que no tiene escaños en la         %
-% combinación propuesta                                                        %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-comen_sin_escanos(P) :-
-    write('No creo que nadie vaya a pactar con un partido sin escaños como '),
-    nombre(P,N),
-    write(N),
-    write('.'),nl.
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Comentario por si se encuentra un partido que no tiene escaños en la         %
+% % combinación propuesta                                                        %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% comen_sin_escanos(P) :-
+%     write('No creo que nadie vaya a pactar con un partido sin escaños como '),
+%     nombre(P,N),
+%     write(N),
+%     write('.'),nl.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Comentario por si se encuentra un partido repetido en un grupo de partidos   %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-comen_repe(P) :-
-    write('Por mucho que te guste '),
-    nombre(P,N),
-    write(N),
-    write(', no va a tener más escaños de los que tiene.'),nl.
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% % Comentario por si se encuentra un partido repetido en un grupo de partidos   %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% comen_repe(P) :-
+%     write('Por mucho que te guste '),
+%     nombre(P,N),
+%     write(N),
+%     write(', no va a tener más escaños de los que tiene.'),nl.
